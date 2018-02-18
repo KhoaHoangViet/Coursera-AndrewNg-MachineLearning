@@ -119,6 +119,8 @@ ylabel('Exam 2 score')
 
 % Specified in plot order
 legend('Admitted', 'Not admitted')
+print -dpng 'add_decision_boundary.png'
+
 hold off;
 
 fprintf('\nProgram paused. Press enter to continue.\n');
