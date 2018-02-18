@@ -38,6 +38,8 @@ ylabel('Microchip Test 2')
 
 % Specified in plot order
 legend('y = 1', 'y = 0')
+print -dpng 'raw_data_ex2.png'
+
 hold off;
 
 
@@ -126,6 +128,8 @@ xlabel('Microchip Test 1')
 ylabel('Microchip Test 2')
 
 legend('y = 1', 'y = 0', 'Decision boundary')
+print -dpng 'add_decision_boundary_ex2.png'
+
 hold off;
 
 % Compute accuracy on our training set
@@ -133,4 +137,3 @@ p = predict(theta, X);
 
 fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
 fprintf('Expected accuracy (with lambda = 1): 83.1 (approx)\n');
-
