@@ -80,6 +80,16 @@ temp = sum(temp,2); % Dimension = [m * 1]
 % Sum as m(sum all element of each column)
 J = 1/m*sum(temp); % Dimension = [1 * 1]
 
+%% Regularization part
+% Theta without bias
+nobias_Theta1 = Theta1(:,2:end);
+nobias_Theta2 = Theta2(:,2:end);
+% NoBias Unrolled parameters
+nobias_nn_params = [nobias_Theta1(:) ; nobias_Theta2(:)];
+
+regula_part = lambda/(2*m)* (sum(nobias_nn_params.^2));
+
+J = J + regula_part;
 
 
 
