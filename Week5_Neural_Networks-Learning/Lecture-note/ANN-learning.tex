@@ -3,10 +3,39 @@
 \usepackage{amsfonts}
 \usepackage{graphicx}
 \usepackage[utf8x]{inputenc} 
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
 \title{Machine Learning lecture notes}
 \author{Khoa Hoang Viet \thanks{based on Andrew Ng's Machine Learning course in coursera.org}}
 \date{\today}
 \begin{document}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
 \section{Cost Function and Backpropagation}
 \subsection{Cost Function}
 Let's first define a few variables that we will need to use:
@@ -93,5 +122,28 @@ $$\delta_j^{(l)} = \dfrac{\partial}{\partial z_j^{(l)}} cost(t)$$
 Recall that our derivative is the slope of a line tangent to the cost function, so the steeper the slope the more incorrect we are.
 
 Note: In lecture, sometimes i is used to index a training example. Sometimes it is used to index a unit in a layer. In the Back Propagation Algorithm described here, t is used to index a training example rather than overloading the use of i.
+
+\section{Backpropagation in Practice}
+\subsection{Implementation Note: Unrolling Parameters}
+With neural networks, we are working with sets of matrices:
+\begin{align*}
+	\Theta^{(1)}, \Theta^{(2)}, \Theta^{(3)}, \dots \\
+	D^{(1)}, D^{(2)}, D^{(3)}, \dots
+\end{align*}
+
+In order to use optimizing functions such as "fminunc()", we will want to "unroll" all the elements and put them into one long vector:
+
+\begin{lstlisting}[language=Octave]
+thetaVector = [Theta1(:); Theta2(:); Theta3(:);]
+deltaVector = [D1(:); D2(:); D3(:)]
+\end{lstlisting}
+
+If the dimensions of Theta1 is 10x11, Theta2 is 10x11 and Theta3 is 1x11, then we can get back our original matrices from the "unrolled" versions as follows:
+
+\begin{lstlisting}[language=Octave]
+Theta1 = reshape(thetaVector(1:110),10,11)
+Theta2 = reshape(thetaVector(111:220),10,11)
+Theta3 = reshape(thetaVector(221:231),1,11)
+\end{lstlisting}
 
 \end{document}
