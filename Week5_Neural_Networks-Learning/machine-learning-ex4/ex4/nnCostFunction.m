@@ -62,16 +62,17 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-a1 = [ones(m, 1) X]; % Dimension = [m x (s1+1)]
+a1 = [ones(m, 1) X]; % Dimension = [m*(s1+1)]
 
-a2 = sigmoid(a1*Theta1');
-a2 = [ones(m, 1) a2]; % Dimension = [m x (s2+1)]
+z2 = a1*Theta1'; %Dimension = [m*s2]
+a2 = sigmoid(z2);
+a2 = [ones(m, 1) a2]; % Dimension = [m*(s2+1)]
 
 a3 = sigmoid(a2*Theta2'); % Dimension = [m * K]
 hypothesis = a3;
 
 % Logical vector for y
-yv=[1:num_labels] == y; %  Dimension = [m * K]
+yv=[1:num_labels] == y; %  Dimension = [m*K]
 
 %% Cost function without regularization
 temp = -yv.*log(hypothesis) - (1-yv).*log(1-hypothesis); %dimension = [m * K]
@@ -82,22 +83,28 @@ J = 1/m*sum(temp); % Dimension = [1 * 1]
 
 %% Regularization part
 % Theta without bias
-nobias_Theta1 = Theta1(:,2:end);
-nobias_Theta2 = Theta2(:,2:end);
+no_bias_Theta1 = Theta1(:,2:end); % Dimension = [s2*s1]
+no_bias_Theta2 = Theta2(:,2:end); % Dimension = [s3*s2]
 % NoBias Unrolled parameters
-nobias_nn_params = [nobias_Theta1(:) ; nobias_Theta2(:)];
+no_bias_nn_params = [no_bias_Theta1(:) ; no_bias_Theta2(:)]; % Dimension = [(s2*s1 + s3*s2)*1]
 
-regula_part = lambda/(2*m)* (sum(nobias_nn_params.^2));
+regula_part = lambda/(2*m)* (sum(no_bias_nn_params.^2)); % Dimension = [1*1]
 
 J = J + regula_part;
 
+%% Backpropagation
+delta3 = a3 - yv; % Dimension = [m*K]
+delta2 = (delta3*no_bias_Theta2).*sigmoidGradient(z2); % Dimension = [m*s2]
 
+Delta1 = zeros(size(Theta1));
+Delta2 = zeros(size(Theta2));
 
+Delta2 = Delta2 + delta3'*a2; % Dimension = [s3*(s2+1)]
+Delta1 = Delta1 + delta2'*a1; % Dimension = [s2*(s1+1)]
 
-
-
-
-
+% without Regularization
+Theta2_grad = Delta2/m;
+Theta1_grad = Delta1/m;
 
 
 
