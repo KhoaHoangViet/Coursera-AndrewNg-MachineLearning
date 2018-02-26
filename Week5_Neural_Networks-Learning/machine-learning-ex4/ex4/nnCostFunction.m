@@ -106,6 +106,11 @@ Delta1 = Delta1 + delta2'*a1; % Dimension = [s2*(s1+1)]
 Theta2_grad = Delta2/m;
 Theta1_grad = Delta1/m;
 
+% Regularization
+Theta2_grad = (Delta2 + lambda*Theta2)/m; % Update all elements
+Theta2_grad(:,1) = Theta2_grad(:,1) - lambda*Theta2(:,1)/m; % Not regularizing to bias
+Theta1_grad = (Delta1 + lambda*Theta1)/m;
+Theta1_grad(:,1) = Theta1_grad(:,1) - lambda*Theta1(:,1)/m;
 
 
 % -------------------------------------------------------------
