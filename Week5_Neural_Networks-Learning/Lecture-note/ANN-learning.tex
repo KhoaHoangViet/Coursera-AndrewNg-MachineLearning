@@ -146,4 +146,32 @@ Theta2 = reshape(thetaVector(111:220),10,11)
 Theta3 = reshape(thetaVector(221:231),1,11)
 \end{lstlisting}
 
+\subsection{Gradient Checking}
+Gradient checking will assure that our backpropagation works as intended.
+
+We can approximate the derivative of our cost function with:
+$$\dfrac{\partial}{\partial\Theta}J(\Theta) \approx \dfrac{J(\Theta + \epsilon) - J(\Theta - \epsilon)}{2\epsilon}$$
+
+With multiple theta matrices, we can approximate the derivative with respect to $\Theta_j$ as follows:
+$$\dfrac{\partial}{\partial\Theta_j}J(\Theta) \approx \dfrac{J(\Theta_1, \dots, \Theta_j + \epsilon, \dots, \Theta_n) - J(\Theta_1, \dots, \Theta_j - \epsilon, \dots, \Theta_n)}{2\epsilon}$$
+
+A good small value for ${\epsilon}$ (epsilon), guarantees the math above to become true. If the value be much smaller, may we will end up with numerical problems. The professor Andrew usually uses the value ${\epsilon = 10^{-4}}$.
+
+We are only adding or subtracting epsilon to the $Theta_j$ matrix. In octave we can do it as follows:
+
+\begin{lstlisting}[language=Octave]
+epsilon = 1e-4;
+for i = 1:n,
+  thetaPlus = theta;
+  thetaPlus(i) += epsilon;
+  thetaMinus = theta;
+  thetaMinus(i) -= epsilon;
+  gradApprox(i) = (J(thetaPlus) - J(thetaMinus))/(2*epsilon)
+end;
+\end{lstlisting}
+
+We then want to check that gradApprox ≈ deltaVector.
+
+Once you've verified once that your backpropagation algorithm is correct, then you don't need to compute gradApprox again. The code to compute gradApprox is very slow.
+
 \end{document}
