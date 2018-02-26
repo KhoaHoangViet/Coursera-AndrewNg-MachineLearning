@@ -72,4 +72,26 @@ For training example t =1 to m:
 	
 \end{enumerate}
 
+\subsection{Backpropagation Intuition}
+The cost function is:
+\begin{gather*}
+	J(\theta) = - \frac{1}{m} \sum_{t=1}^m\sum_{k=1}^K  \left[ y^{(t)}_k \ \log (h_\theta (x^{(t)}))_k + (1 - y^{(t)}_k)\ \log (1 - h_\theta(x^{(t)})_k)\right] \\
+	+ \frac{\lambda}{2m}\sum_{l=1}^{L-1} \sum_{i=1}^{s_l} \sum_{j=1}^{s_l+1} ( \theta_{j,i}^{(l)})^2
+\end{gather*}
+
+If we consider simple non-multiclass classification (k = 1) and disregard regularization, the cost is computed with:
+$$cost(t) =y^{(t)} \ \log (h_\theta (x^{(t)})) + (1 - y^{(t)})\ \log (1 - h_\theta(x^{(t)}))$$
+
+More intuitively you can think of that equation roughly as:
+$$cost(t) \approx (h_\theta(x^{(t)})-y^{(t)})^2$$
+
+Intuitively, $\delta_j^{(l)}$ is the "error" for $a^{(l)}_j$ (unit j in layer l)
+
+More formally, the delta values are actually the derivative of the cost function:
+$$\delta_j^{(l)} = \dfrac{\partial}{\partial z_j^{(l)}} cost(t)$$
+
+Recall that our derivative is the slope of a line tangent to the cost function, so the steeper the slope the more incorrect we are.
+
+Note: In lecture, sometimes i is used to index a training example. Sometimes it is used to index a unit in a layer. In the Back Propagation Algorithm described here, t is used to index a training example rather than overloading the use of i.
+
 \end{document}
