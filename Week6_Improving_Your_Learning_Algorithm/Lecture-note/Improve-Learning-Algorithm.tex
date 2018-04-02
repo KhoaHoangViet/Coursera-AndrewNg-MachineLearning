@@ -2,11 +2,9 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
-\usepackage[utf8x]{inputenc} 
 \usepackage{listings}
 \usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
-\usepackage[sfdefault]{roboto}  %% Option 'sfdefault' only if the base font of the document is to be sans serif
-\usepackage[T1]{fontenc}
+
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -61,4 +59,21 @@ This gives us a binary 0 or 1 error result based on a misclassification. The ave
 $$\text{Test Error} = \dfrac{1}{m_{test}} \sum^{m_{test}}_{i=1} err(h_\Theta(x^{(i)}_{test}), y^{(i)}_{test})$$
 
 This gives us the proportion of the test data that was misclassified.
+
+\section{Handling Skewed Data}
+\textbf{Skewed Data} is data has asymmetrical distribution. Example: In cancer classification that just 1\% of patients have cancer.
+In that case, use accuracy metric as evalution metric seem like not good at all. 
+\subsection{Error Metrics for Skewed Data}
+First we split the outcome value to 4 classes:
+
+\includegraphics[width=\textwidth]{TP_FP_TN_FN.png}
+
+With these classes we can here is how to caculate \textbf{Precision/Recall} metrics:
+$$\textbf{Precision} = \frac{\text{True positives}}{\text{\# predicted as positive}} = \frac{\text{True positives}}{\text{True positives + False positives}}$$
+
+$$\textbf{Recall} = \frac{\text{True positives}}{\text{\# actual positives}} = \frac{\text{True positives}}{\text{True positives + False negatives}}$$
+
+
+Note: y=1 small class(e.g: cancer patients), y=0 for larger class(e.g:non-cancer patients).
+
 \end{document}
